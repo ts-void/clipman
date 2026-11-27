@@ -64,6 +64,41 @@ func TestStore(t *testing.T) {
 			maxItems: 3,
 			want:     []string{"A"},
 		},
+		{
+			name:     "negative max-items, empty history, first item",
+			initial:  nil,
+			text:     "A",
+			maxItems: -1,
+			want:     []string{"A"},
+		},
+		{
+			name:     "negative max-items means unlimited",
+			initial:  []string{"A", "B", "C"},
+			text:     "D",
+			maxItems: -1,
+			want:     []string{"A", "B", "C", "D"},
+		},
+		{
+			name:     "negative max-items, re-copy non-last item",
+			initial:  []string{"A", "B", "C"},
+			text:     "B",
+			maxItems: -1,
+			want:     []string{"A", "C", "B"},
+		},
+		{
+			name:     "max-items=1 keeps only newest",
+			initial:  []string{"A", "B"},
+			text:     "C",
+			maxItems: 1,
+			want:     []string{"C"},
+		},
+		{
+			name:     "max-items=1, duplicate of last item is ignored",
+			initial:  []string{"A"},
+			text:     "A",
+			maxItems: 1,
+			want:     []string{"A"},
+		},
 	}
 
 	for _, tt := range tests {

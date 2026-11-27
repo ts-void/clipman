@@ -22,7 +22,7 @@ func store(text string, history []string, histfile string, maxChar int, persist 
 
 	// drop oldest items that exceed max list size
 	// if max = 0, we allow infinite history; NOTE: users should NOT rely on this behaviour as we might change it without notice
-	if maxChar != 0 && len(history) >= maxChar {
+	if maxChar > 0 && len(history) >= maxChar {
 		history = history[len(history)-maxChar+1:]
 	}
 
